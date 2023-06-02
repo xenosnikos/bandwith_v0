@@ -1,0 +1,58 @@
+﻿@page "/signup"
+
+@inject HttpClient Http;
+@inject IJSRuntime JSRuntime
+
+@page "/signup"
+
+@inject HttpClient Http;
+@inject IJSRuntime JSRuntime
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Sign Up</h2>
+            <form @onsubmit="HandleSubmit">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input @bind="user.Name" type="text" class="form-control" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input @bind="user.Email" type="email" class="form-control" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input @bind="user.Password" type="password" class="form-control" id="password" placeholder="Enter a password">
+                </div>
+                <div class="form-group">
+                    <label for="role">I'm signing up as a...</label>
+                    <select @bind="user.Role" class="form-control" id="role">
+                        <option>Freelancer</option>
+                        <option>Employer</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@code {
+    private User user = new User();
+
+    private async Task HandleSubmit()
+    {
+        var response = await Http.PostAsJsonAsync("https://localhost:5001/users", user);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "User created successfully!");
+        }
+        else
+        {
+            // There was an error creating the user
+            // You can show an error message
+        }
+    }
+}
