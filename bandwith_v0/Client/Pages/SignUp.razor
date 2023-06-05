@@ -40,7 +40,7 @@
 
     private async Task HandleSubmit()
     {
-        var response = await Http.PostAsJsonAsync("http://localhost:5077/users", user);
+        var response = await Http.PostAsJsonAsync("/users", user);
 
         if (response.IsSuccessStatusCode)
         {

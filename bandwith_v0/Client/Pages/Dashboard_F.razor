@@ -1,5 +1,64 @@
 ﻿<h3>Dashboard</h3>
+@page "/freelancer-dashboard"
+@using System.Net.Http
+@using System.IO;
+@using System.Text.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Text;
+
+@inject HttpClient HttpClient
+
+<h3>Freelancer Dashboard</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Bio</h4>
+            <form @onsubmit="HandleBioSubmit">
+                <div class="form-group">
+                    <label for="bioTextArea">Bio</label>
+                    <textarea @bind="@user.Bio" class="form-control" id="bioTextArea" rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Bio</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h4>Profile Picture</h4>
+            <InputFile type="file" id="profilePictureInput" multiple accept="image/*" OnChange="HandleProfilePictureChange" />
+            <button type="button" class="btn btn-primary" @onclick="UploadProfilePicture">Upload</button>
+        </div>
+    </div>
+</div>
 
 @code {
+    private User user = new User();
 
+    private async Task HandleBioSubmit()
+    {
+        var json = JsonSerializer.Serialize(user);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await HttpClient.PostAsync($"/users/{user.Id}/bio", content);
+
+        // Show success message or perform any additional actions
+    }
+
+    private async Task HandleProfilePictureChange(InputFileChangeEventArgs e)
+    {
+        var files = e.GetMultipleFiles();
+
+        foreach (var file in files)
+        {
+            var buffer = new byte[file.Size];
+            await file.OpenReadStream().ReadAsync(buffer);
+            // Store the buffer or perform any additional actions
+        }
+    }
+
+    private async Task UploadProfilePicture()
+    {
+        // Perform the image upload to the server using the stored buffer
+        // Make API call to update profile picture
+        // Show success message or perform any additional actions
+    }
 }

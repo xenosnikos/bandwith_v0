@@ -30,10 +30,9 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseMiddleware<CorsMiddleware>();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
-app.UseMiddleware<CorsMiddleware>();
 app.UseRouting();
 
 app.UseEndpoints(endpoints =>
@@ -56,7 +55,7 @@ public class CorsMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+        context.Response.Headers.Add("Access-Control-Allow-Origin", "https://localhost:7112");
         context.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 

@@ -1,4 +1,5 @@
-﻿namespace bandwith_v0.Client.Shared
+﻿using bandwith_v0.Shared;
+namespace bandwith_v0.Client.Shared
 {
     public class User
     {
@@ -7,5 +8,6 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+        public UserBio Bio { get; set; }
     }
 }
