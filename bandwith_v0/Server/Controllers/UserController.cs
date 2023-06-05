@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using bandwith_v0.Server;
-using bandwith_v0.Shared;
-using bandwith_v0.Client.Shared;
+﻿using bandwith_v0.Client.Shared;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace bandwith_v0.Server.Controllers
 {
     [ApiController]
+
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
@@ -25,6 +25,11 @@ namespace bandwith_v0.Server.Controllers
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        // Other actions (GetUser, PutUser, DeleteUser, etc.) can go here
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
     }
 }
